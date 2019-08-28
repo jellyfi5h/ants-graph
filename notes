@@ -1,0 +1,4 @@
+Errors:
+	-no start or end commands
+	-two rooms with the same name
+	-not connected nodes (without edges)
