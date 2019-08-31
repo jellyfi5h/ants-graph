@@ -3,27 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ataleb <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: aboukhri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/05 16:13:12 by ataleb            #+#    #+#             */
-/*   Updated: 2018/10/09 17:43:14 by ataleb           ###   ########.fr       */
+/*   Created: 2018/10/06 18:44:36 by aboukhri          #+#    #+#             */
+/*   Updated: 2018/10/08 19:26:00 by aboukhri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
+char	*ft_strnstr(const char *dst, const char *src, size_t n)
 {
-	unsigned	int	ss;
+	size_t	i;
+	int		j;
+	size_t	ri;
 
-	if (*needle == '\0')
-		return ((char *)haystack);
-	ss = ft_strlen(needle);
-	while (*haystack != '\0' && len-- >= ss)
+	i = 0;
+	j = 0;
+	if (ft_strlen(src) == 0)
+		return (char*)dst;
+	while (dst[i] != '\0' && i < n)
 	{
-		if (*haystack == *needle && ft_memcmp(haystack, needle, ss) == 0)
-			return ((char *)haystack);
-		haystack++;
+		if (src[j] == dst[i])
+		{
+			ri = i;
+			while (src[j] == dst[ri])
+			{
+				ri++;
+				j++;
+				if (src[j] == '\0' && ri <= n)
+					return (char*)dst + i;
+			}
+			j = 0;
+		}
+		i++;
 	}
 	return (NULL);
 }

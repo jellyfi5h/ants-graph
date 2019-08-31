@@ -3,46 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ataleb <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: aboukhri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/13 11:56:33 by ataleb            #+#    #+#             */
-/*   Updated: 2018/10/09 17:17:36 by ataleb           ###   ########.fr       */
+/*   Created: 2018/10/05 21:33:14 by aboukhri          #+#    #+#             */
+/*   Updated: 2018/10/08 23:44:23 by aboukhri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static	int		slen(char *str)
+size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
-	int i;
+	size_t	i;
+	int		j;
+	int		len;
 
 	i = 0;
-	while (*(str + i) != '\0')
+	j = 0;
+	len = ft_strlen(dst);
+	i = len;
+	if ((int)size < len)
+		return (size + ft_strlen(src));
+	while (i < size - 1 && src[j] != '\0')
 	{
-		i++;
-	}
-	return (i);
-}
-
-size_t			ft_strlcat(char *dst, char *src, unsigned int size)
-{
-	unsigned int i;
-	unsigned int j;
-	unsigned int lengthdest;
-	unsigned int length;
-
-	i = 0;
-	lengthdest = slen(dst);
-	j = lengthdest;
-	length = lengthdest + slen(src);
-	if ((unsigned)j >= size)
-		return (length - j + size);
-	while (src[i] != '\0' && (unsigned)(i + lengthdest) < size - 1)
-	{
-		dst[j] = src[i];
+		dst[i] = src[j];
 		i++;
 		j++;
 	}
-	dst[j] = '\0';
-	return (length);
+	dst[i] = '\0';
+	return (len + ft_strlen(src));
 }

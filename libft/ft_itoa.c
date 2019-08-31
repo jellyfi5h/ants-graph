@@ -3,48 +3,68 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ataleb <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: aboukhri <aboukhri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/07 22:57:13 by ataleb            #+#    #+#             */
-/*   Updated: 2018/10/08 20:16:10 by ataleb           ###   ########.fr       */
+/*   Created: 2018/10/04 15:06:02 by aboukhri          #+#    #+#             */
+/*   Updated: 2018/11/17 21:41:41 by aboukhri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static	int	num(long int n)
+static	char	*sub_itoi(long long int n, char *str, long long int fac)
 {
+	int					i;
+	char				c;
+	int					j;
+	long	long	int	nbr;
+
+	i = 0;
+	nbr = n;
 	if (n < 0)
-		n *= -1;
-	if (n < 10)
-		return (1);
-	return (1 + num(n / 10));
+	{
+		nbr *= -1;
+		str[i] = '-';
+		i++;
+	}
+	while (fac > 0)
+	{
+		j = nbr / fac;
+		c = j + '0';
+		str[i] = c;
+		nbr = nbr - (j * fac);
+		fac /= 10;
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
 }
 
-char		*ft_itoa(int n)
+char			*ft_itoa(long long int n)
 {
-	char		*arr;
-	int			c;
-	long	int	nbim;
+	int					i;
+	long	long	int	nbr;
+	char				*str;
+	long long	int		fac;
 
-	nbim = n;
-	c = num(n);
+	i = 0;
+	nbr = n;
 	if (n < 0)
 	{
-		if (!(arr = (char *)malloc(c + 2)))
-			return (NULL);
-		arr[c++ - num(n)] = '-';
-		nbim *= -1;
+		i++;
+		nbr *= -1;
+		i++;
 	}
-	else
-		arr = (char *)malloc(c + 1);
-	arr[c--] = '\0';
-	if (nbim == 0)
-		arr[0] = '0';
-	while (nbim != 0)
+	else if (n == 0)
+		i = 1;
+	fac = 1;
+	while ((nbr / fac) >= 10)
 	{
-		arr[c--] = ((nbim % 10) + '0');
-		nbim /= 10;
+		fac *= 10;
+		i++;
 	}
-	return (arr);
+	str = (char*)malloc(sizeof(*str) * (i + 2));
+	if (str == NULL)
+		return (NULL);
+	return (sub_itoi(n, str, fac));
 }

@@ -1,23 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_nbccmp.c                                        :+:      :+:    :+:   */
+/*   ft_remalloc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ataleb <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: aboukhri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/09 18:22:56 by ataleb            #+#    #+#             */
-/*   Updated: 2018/10/09 18:25:13 by ataleb           ###   ########.fr       */
+/*   Created: 2019/02/02 18:06:47 by aboukhri          #+#    #+#             */
+/*   Updated: 2019/02/02 18:07:12 by aboukhri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_nbccmp(int c1, int c2)
+void	*ft_remalloc(char *str, size_t size)
 {
-	if (c1 == c2)
-		return (0);
-	else if (c1 > c2)
-		return (1);
-	else
-		return (-1);
+	ft_strdel(&str);
+	if (size > 0)
+		str = (char*)ft_memalloc(size);
+	return (str);
 }

@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_intmap.c                                        :+:      :+:    :+:   */
+/*   ft_dbl_strdel.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ataleb <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: mfetoui <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/09 18:34:52 by ataleb            #+#    #+#             */
-/*   Updated: 2018/10/09 18:35:10 by ataleb           ###   ########.fr       */
+/*   Created: 2019/02/22 02:01:35 by mfetoui           #+#    #+#             */
+/*   Updated: 2019/05/19 12:56:30 by aboukhri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	*ft_intmap(int *tab, int length, int (*f)(int))
+void	ft_dbl_strdel(char **str)
 {
-	int i;
-	int *tabreturn;
+	int		i;
 
 	i = 0;
-	tabreturn = (int*)malloc(sizeof(int) * (length + 1));
-	while (i < length)
+	if (str != NULL)
 	{
-		tabreturn[i] = f(tab[i]);
-		i++;
+		while (str[i])
+		{
+			ft_strdel(&str[i]);
+			i++;
+		}
+		free(str);
+		str = NULL;
 	}
-	return (tabreturn);
 }

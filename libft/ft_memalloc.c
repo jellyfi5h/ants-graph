@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memalloc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ataleb <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: aboukhri <aboukhri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/05 18:57:14 by ataleb            #+#    #+#             */
-/*   Updated: 2018/10/07 13:46:24 by ataleb           ###   ########.fr       */
+/*   Created: 2018/10/06 23:42:33 by aboukhri          #+#    #+#             */
+/*   Updated: 2019/05/13 03:36:46 by mfetoui          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,14 @@
 
 void	*ft_memalloc(size_t size)
 {
-	unsigned	char	*wahiav;
-	unsigned	int		i;
+	int		i;
+	char	*str;
 
-	if (size > 10000000)
+	str = (char*)malloc(sizeof(char) * size);
+	if (str == NULL || size > SIZEMAX)
 		return (NULL);
-	if (!(wahiav = (void *)malloc(size + 1)))
-		return (NULL);
-	i = 0;
-	while (i < size)
-		wahiav[i++] = 0;
-	return ((void *)wahiav);
+	i = -1;
+	while (++i < (int)size)
+		str[i] = 0;
+	return (str);
 }

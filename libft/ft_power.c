@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_numofdigits.c                                   :+:      :+:    :+:   */
+/*   ft_power.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ataleb <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: aboukhri <aboukhri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/09 18:10:32 by ataleb            #+#    #+#             */
-/*   Updated: 2018/10/09 18:40:45 by ataleb           ###   ########.fr       */
+/*   Created: 2018/11/11 14:25:05 by aboukhri          #+#    #+#             */
+/*   Updated: 2018/11/17 21:45:44 by aboukhri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_numofdigits(long int n)
+int		ft_power(int nbr, int power)
 {
-	if (n < 0)
-		n *= -1;
-	if (n < 10)
+	int		res;
+
+	res = nbr;
+	if (power == 0)
 		return (1);
-	return (1 + ft_numofdigits(n / 10));
+	while (--power > 0)
+		res *= nbr;
+	return (res);
 }

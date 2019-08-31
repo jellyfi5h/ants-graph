@@ -1,23 +1,12 @@
 
 #include "lem_in.h"
 
-
 int     main()
 {
 	t_graph graph;
 
-	parse(&graph);//check errors and fill the rooms and edges lists
-
+	parsing(&graph);//check errors and fill the rooms and edges lists
 	return (0);
-}
-
-void    parse(t_lemin *graph)
-{
-	graph->len = check_errors();//errors (1, 3, 4, 7) and get number of rooms
-	graph->nodes = (t_nodes**)ft_memalloc(sizeof(t_nodes) * (graph->len + 1));//add to garbage collector
-	graph->edges = (t_edges**)ft_memalloc(sizeof(t_edges*) * (graph->len + 1));//add to garbage collector
-	fill_vertices(graph);//check errors (5) and fill list of vertices
-	fill_edges(graph);//errors (2, 6) and fill list of edges
 }
 
 
@@ -32,32 +21,7 @@ errors:
 7- not respected the order of (ants -> rooms ->links)
  */
 
-//insert all vertices
-void    fill_vertices(t_graph *graph)
-{
-	char *line;
-	char **split;
-	char r;
-	int index;
-
-	r = 0;
-	index = 0;
-	while (get_next_line(fd, &line) && index < graph->len)
-	{
-		if (line[0] == '#' && line[1] == '#')
-			if ((r = command_map(line + 2)) == 'o') // if command is neither start or end
-				exit(1);
-		if (is_room(line))
-		{
-			split = ft_strsplit(line, ' ');
-			if (!hash_node((t_node){index, line[0], r, 0, NULL}, graph))//add new node to the hash table 
-				exit(1);//exit error + free
-			index++;
-			//ft_strdbldel(split); free **split
-		}
-	}
-}
-
+/* ??? this function will not work in case given just 2 spaces without chars */ 
 int		is_room(char *line)
 {
 	int	index;
@@ -90,26 +54,21 @@ char    command_map(char *line)
 	else if (ft_strcmp(line, "end") == 0)
 		r = 'e';
 	else
-		r = 'o';
+		r = 0;
 	return (r);
 }
 
-//insert all edges
-void    fill_edges(t_graph *graph)
+void	parse_links(char *line)//split link to two rooms and exit in case an error
 {
-	char *line;
 	char **rooms;
 
-
-	while (get_next_line(&line))
+	rooms = ft_strsplit(line, '-');
+	if (!link_rooms(rooms, graph))
 	{
-		if (is_link(line))
-		{
-			rooms = ft_strsplit(line, '-');
-			//add two edges
-			//ft_strdbldel(rooms); free **rooms
-		}
-		else if (line[0] != '#')
-			exit(1);//exit error + free garbage
+		free(line);
+		ft_dbl_strdel(rooms);
+		exit(1)//exit error
 	}
+	ft_dbl_strdel(rooms);
+	free(line);
 }

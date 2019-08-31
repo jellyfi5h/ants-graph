@@ -3,69 +3,62 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ataleb <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: aboukhri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/07 09:31:48 by ataleb            #+#    #+#             */
-/*   Updated: 2018/10/20 01:47:21 by ataleb           ###   ########.fr       */
+/*   Created: 2018/10/07 19:28:37 by aboukhri          #+#    #+#             */
+/*   Updated: 2018/11/17 21:43:20 by aboukhri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
-static	int		is_space(char c)
+static	int		get_index(const char *str)
 {
-	if (c == ' ' || c == '\n' || c == '\t' || c == '\v'
-			|| c == '\r' || c == '\f')
-		return (1);
-	return (0);
-}
+	int		i;
+	int		cpt;
 
-static	int		strtonum(const char *str)
-{
-	long	res;
-	int		neg;
-	int		counter;
-
-	neg = 1;
-	res = 0;
-	while (is_space(*str))
-		str++;
-	if (*str == '+')
-		str++;
-	else if (*str == '-')
+	i = -1;
+	cpt = 0;
+	while (str[++i] != '\0')
 	{
-		str++;
-		neg = -1;
-	}
-	counter = *str - '0';
-	while (counter >= 0 && counter < 10)
-	{
-		res = res * 10 + counter;
-		str++;
-		counter = *str - '0';
-	}
-	return (res * neg);
-}
-
-int				ft_atoi(const char *str)
-{
-	int cont;
-	int index;
-
-	index = 0;
-	cont = 0;
-	while (str[index] != '\0')
-	{
-		if ((str[index] > '0') && (str[index] <= '9'))
-			cont++;
-		index++;
-	}
-	if (cont > 10)
-	{
-		if (str[0] == '-')
-			return (0);
-		else
+		if (str[i] == '-' || str[i] == '+')
+			cpt++;
+		else if (str[i] >= '0' && str[i] <= '9')
+			return (i);
+		else if (str[i] != ' ' && str[i] != '\t' && str[i] != '\n' &&
+				str[i] != '\v' && str[i] != '\r' &&
+				str[i] != '\f')
+			return (-1);
+		else if (cpt > 0)
+			return (-1);
+		if (cpt > 1)
 			return (-1);
 	}
-	return (strtonum(str));
+	return (-1);
+}
+
+long	int		ft_atoi(const char *str)
+{
+	int				i;
+	long	int		res;
+	int				neg;
+
+	i = get_index(str);
+	res = 0;
+	if (i < 0)
+		return (0);
+	neg = (i > 0 && str[i - 1] == '-') ? -1 : 1;
+	while (str[i] != '\0')
+	{
+		if (str[i] < '0' || str[i] > '9')
+			return (res * neg);
+		else
+		{
+			res *= 10;
+			res += str[i] - '0';
+		}
+		i++;
+	}
+	return (res * neg);
 }

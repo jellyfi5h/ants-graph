@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ataleb <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: aboukhri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/05 14:01:49 by ataleb            #+#    #+#             */
-/*   Updated: 2018/10/07 20:25:11 by ataleb           ###   ########.fr       */
+/*   Created: 2018/10/04 13:14:03 by aboukhri          #+#    #+#             */
+/*   Updated: 2018/10/04 15:00:16 by aboukhri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,28 @@
 
 void	ft_putnbr(int n)
 {
-	char		arr[15];
-	int			c;
-	long	int	nbim;
+	long	int	nbr;
+	int			fac;
+	char		c;
+	long	int	j;
 
-	c = 0;
-	nbim = n;
-	if (nbim == 0)
-		write(1, "0", 1);
-	if (nbim < 0)
+	nbr = n;
+	fac = 1;
+	if (n < 0)
 	{
-		write(1, "-", 1);
-		nbim *= (-1);
+		nbr *= -1;
+		ft_putchar('-');
 	}
-	while (nbim != 0)
+	while ((nbr / fac) >= 10)
 	{
-		arr[c] = ((nbim % 10) + '0');
-		nbim /= 10;
-		c++;
+		fac *= 10;
 	}
-	while ((c - 1) >= 0)
+	while (fac > 0)
 	{
-		write(1, &(arr[c - 1]), 1);
-		c--;
+		j = nbr / fac;
+		c = j + '0';
+		ft_putchar(c);
+		nbr = nbr - (j * fac);
+		fac /= 10;
 	}
 }

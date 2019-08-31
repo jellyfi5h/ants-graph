@@ -3,42 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ataleb <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: aboukhri <aboukhri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/03 17:41:52 by ataleb            #+#    #+#             */
-/*   Updated: 2018/10/09 16:57:19 by ataleb           ###   ########.fr       */
+/*   Created: 2018/10/06 13:14:46 by aboukhri          #+#    #+#             */
+/*   Updated: 2019/05/19 12:57:11 by aboukhri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "libft.h"
 
-static	char	*cpy(char *dest, char const *src)
+char	*ft_strdup(const char *s)
 {
-	int i;
-
-	i = 0;
-	while (src[i] != '\0')
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
-}
-
-char			*ft_strdup(char const *s1)
-{
-	char	*des;
 	int		i;
+	char	*str;
 
+	if (s == NULL)
+		return (NULL);
+	if (!(str = (char*)malloc(sizeof(char) * ft_strlen(s) + 1)))
+		return (NULL);
 	i = 0;
-	while (s1[i] != '\0')
+	while (s[i] != '\0')
 	{
+		str[i] = s[i];
 		i++;
 	}
-	des = (char*)malloc(i + 1);
-	if (des == NULL)
-		return (NULL);
-	cpy(des, s1);
-	return (des);
+	str[i] = '\0';
+	return (str);
 }

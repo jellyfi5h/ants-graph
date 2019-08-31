@@ -1,36 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   strncpy.c                                          :+:      :+:    :+:   */
+/*   ft_strncpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ataleb <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: aboukhri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/07 08:26:46 by ataleb            #+#    #+#             */
-/*   Updated: 2018/10/09 17:18:06 by ataleb           ###   ########.fr       */
+/*   Created: 2018/10/05 20:17:50 by aboukhri          #+#    #+#             */
+/*   Updated: 2018/10/08 19:44:09 by aboukhri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strncpy(char *dst, const char *src, size_t n)
+char	*ft_strncpy(char *dest, const char *src, size_t n)
 {
-	unsigned	int	i;
-	char			*arr;
+	size_t			j;
+	char			*a;
 
-	i = 0;
-	arr = dst;
-	while (*src && i < n)
+	j = 0;
+	a = dest;
+	while (*src && j < n)
 	{
-		*dst = *src;
+		*dest = *src;
+		dest++;
 		src++;
-		dst++;
-		i++;
+		j++;
 	}
-	while (i < n)
+	while (j < n)
 	{
-		*dst = '\0';
-		dst++;
-		i++;
+		*dest = '\0';
+		dest++;
+		j++;
 	}
-	return (arr);
+	return (a);
 }

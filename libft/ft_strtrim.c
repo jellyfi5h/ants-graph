@@ -3,41 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ataleb <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: aboukhri <aboukhri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/07 15:19:47 by ataleb            #+#    #+#             */
-/*   Updated: 2018/10/19 15:16:10 by ataleb           ###   ########.fr       */
+/*   Created: 2018/10/07 04:09:31 by aboukhri          #+#    #+#             */
+/*   Updated: 2019/05/19 12:48:39 by aboukhri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static	int	iswspace(char c)
+char	*ft_strtrim(char const *s)
 {
-	if (c == ' ' || c == '\n' || c == '\t')
-		return (1);
-	return (0);
-}
+	int bg;
+	int end;
 
-char		*ft_strtrim(char const *s)
-{
-	unsigned	int	e;
-	unsigned	int	b;
-
-	b = 0;
-	e = 0;
-	if (s)
+	if (s == NULL)
+		return (NULL);
+	bg = 0;
+	end = ft_strlen(s) - 1;
+	while (bg <= end)
 	{
-		while (iswspace(s[b]) == 1 || s[b] == '\0')
-		{
-			if (s[b] == '\0')
-				return ("");
-			b++;
-		}
-		e = ft_strlen(s) - 1;
-		while (iswspace(s[e]) == 1)
-			e--;
-		return (ft_strsub(s, b, e - b + 1));
+		if (s[bg] == ' ' || s[bg] == '\t' || s[bg] == '\n')
+			bg++;
+		if (s[end] == ' ' || s[end] == '\t' || s[end] == '\n')
+			end--;
+		if (s[bg] != ' ' && s[bg] != '\t' && s[bg] != '\n' && s[end] != ' '
+				&& s[end] != '\t' && s[end] != '\n')
+			break ;
 	}
-	return (NULL);
+	if (bg > end)
+		return (ft_strnew(1));
+	else
+		return (ft_strsub(s, bg, end + 1));
 }

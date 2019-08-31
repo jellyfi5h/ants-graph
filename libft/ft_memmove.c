@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ataleb <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: aboukhri <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/04 21:59:30 by ataleb            #+#    #+#             */
-/*   Updated: 2018/10/09 02:27:21 by ataleb           ###   ########.fr       */
+/*   Created: 2018/10/05 19:17:28 by aboukhri          #+#    #+#             */
+/*   Updated: 2018/10/11 01:19:22 by aboukhri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,13 @@
 
 void	*ft_memmove(void *dest, const void *src, size_t n)
 {
-	unsigned	int		index;
-	unsigned	char	*srcv;
-	unsigned	char	*destv;
-	unsigned	char	*holder;
+	unsigned	char			tmp[n];
+	unsigned	char			*d;
+	unsigned	const	char	*s;
 
-	holder = (unsigned char *)malloc(n + 1);
-	srcv = (unsigned char *)src;
-	destv = (unsigned char *)dest;
-	index = 0;
-	while (index < n)
-	{
-		holder[index] = srcv[index];
-		index++;
-	}
-	index = 0;
-	while (index < n)
-	{
-		destv[index] = holder[index];
-		index++;
-	}
-	dest = (void *)destv;
-	free(holder);
+	d = (unsigned char*)dest;
+	s = (unsigned char*)src;
+	ft_memcpy(tmp, s, n);
+	ft_memcpy(d, tmp, n);
 	return (dest);
 }
