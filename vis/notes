@@ -1,0 +1,7 @@
+Pseudo code for sdl2 visu :
+
+Get linked list of rooms with its coordinates;
+draw them in their respective position on the screen;
+draw edges using bresenham;
+load all ants in the beginning vertex;
+start moving ants;

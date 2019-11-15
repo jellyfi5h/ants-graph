@@ -1,0 +1,126 @@
+	SDL_DestroyWindow(visu->window);
+		visu->ant_to_move = visu->ants_struc->ant_rect;
+		while (visu->ant_to_move != NULL)
+			if (visu->ant_to_move->index == tmp->ant_index)
+				visu->ant_to_move->f = 1;
+			visu->ant_to_move = visu->ant_to_move->next;
+	if (!visu->end)
+			while (tmp != NULL && visu->pause == 0)
+			if (visu->pause == 0)
+	visu->end = 1;
+	if (SDL_PollEvent(&visu->event))
+		if (visu->event.type == SDL_QUIT)
+		if (visu->event.type == SDL_KEYDOWN)
+			if (visu->event.key.keysym.sym == SDLK_ESCAPE)
+			if (visu->event.key.keysym.sym == SDLK_p)
+				visu->pause = 1;
+			if (visu->event.key.keysym.sym == SDLK_r)
+				visu->pause = 0;
+	while (visu->roomrect_tmp != NULL)
+		SDL_RenderCopy(visu->renderer, visu->roomtexture_tmp->texture, NULL,
+				&visu->roomrect_tmp->rect);
+		visu->roomtexture_tmp = visu->roomtexture_tmp->next;
+		visu->roomrect_tmp = visu->roomrect_tmp->next;
+	SDL_RenderCopy(visu->renderer, visu->room_struc->text_ure_s, NULL,
+			&visu->room_struc->textpos_s);
+	SDL_RenderCopy(visu->renderer, visu->room_struc->text_ure_e, NULL,
+			&visu->room_struc->textpos_e);
+	SDL_RenderClear(visu->renderer);
+	SDL_RenderCopy(visu->renderer, visu->bg_texture, NULL, NULL);
+	draw_edges(visu->rooms, visu);
+	visu->roomtexture_tmp = visu->room_struc->room_texture;
+	visu->roomrect_tmp = visu->room_struc->room_rect;
+	visu->roomtexture_tmp = visu->ants_struc->ant_texture;
+	visu->roomrect_tmp = visu->ants_struc->ant_rect;
+	while (visu->roomrect_tmp != NULL)
+		if (visu->start)
+			visu->roomrect_tmp->rect.x = (int)visu->roomrect_tmp->dl.updated_x;
+			visu->roomrect_tmp->rect.y = (int)visu->roomrect_tmp->dl.updated_y;
+		SDL_RenderCopy(visu->renderer, visu->roomtexture_tmp->texture, NULL,
+				&visu->roomrect_tmp->rect);
+		visu->roomtexture_tmp = visu->roomtexture_tmp->next;
+		visu->roomrect_tmp = visu->roomrect_tmp->next;
+	SDL_RenderPresent(visu->renderer);
+	if (visu->ant_to_move->dl.dx >= visu->ant_to_move->dl.dy)
+		if (visu->ant_to_move->f)
+			visu->ant_to_move->dl.i = 0;
+			visu->ant_to_move->f = 0;
+		if ((int)visu->ant_to_move->dl.i < visu->ant_to_move->dl.dx)
+			visu->ant_to_move->dl.updated_x += visu->xincr;
+			visu->ant_to_move->rect.x = (int)visu->ant_to_move->dl.updated_x;
+			visu->ant_to_move->dl.updated_y += visu->yincr;
+			visu->ant_to_move->rect.y = (int)visu->ant_to_move->dl.updated_y;
+			(visu->ant_to_move->dl.i) += fabs(visu->xincr);
+	if (visu->ant_to_move->dl.dx < visu->ant_to_move->dl.dy)
+		if (visu->ant_to_move->f)
+			visu->ant_to_move->dl.i = 0;
+			visu->ant_to_move->f = 0;
+		if ((int)visu->ant_to_move->dl.i < visu->ant_to_move->dl.dy)
+			visu->ant_to_move->dl.updated_y += visu->yincr;
+			visu->ant_to_move->rect.y = (int)visu->ant_to_move->dl.updated_y;
+			visu->ant_to_move->dl.updated_x += visu->xincr;
+			visu->ant_to_move->rect.x = (int)visu->ant_to_move->dl.updated_x;
+			(visu->ant_to_move->dl.i) += fabs(visu->xincr);
+	visu->ant_to_move->dl.dx = abs(dst_cords.x - src_cords.x);
+	visu->ant_to_move->dl.dy = abs(dst_cords.y - src_cords.y);
+	visu->xincr = (dst_cords.x - src_cords.x) / FRAMES;
+	visu->yincr = (dst_cords.y - src_cords.y) / FRAMES;
+		struc->neighbor_rect = visu->room_struc->room_rect;
+		SDL_RenderDrawLine(visu->renderer, struc->room_rect->rect.x +
+				visu->room_struc->room_rect->rect.w / 2,
+				visu->room_struc->room_rect->rect.h / 2,
+				visu->room_struc->room_rect->rect.h / 2,
+				visu->room_struc->room_rect->rect.h / 2);
+		struc->room_rect = visu->room_struc->room_rect;
+	visu->roomrect_tmp = visu->room_struc->room_rect;
+	while (visu->roomrect_tmp != NULL)
+		if (ft_strcmp(src, visu->roomrect_tmp->name) == 0)
+			st.src_rec = visu->roomrect_tmp->rect;
+		if (ft_strcmp(dst, visu->roomrect_tmp->name) == 0)
+			st.dst_rec = visu->roomrect_tmp->rect;
+		visu->roomrect_tmp = visu->roomrect_tmp->next;
+	st.src_cords.x = st.src_rec.x + visu->room_struc->room_rect->rect.w / 4;
+	st.src_cords.y = st.src_rec.y + visu->room_struc->room_rect->rect.h / 4;
+	st.dst_cords.x = st.dst_rec.x + visu->room_struc->room_rect->rect.w / 4;
+	st.dst_cords.y = st.dst_rec.y + visu->room_struc->room_rect->rect.h / 4;
+	visu->ant_to_move = visu->ants_struc->ant_rect;
+	while (visu->ant_to_move != NULL)
+		if (visu->ant_to_move->index == ant_index)
+		visu->ant_to_move = visu->ant_to_move->next;
+	visu->rooms = graph->rooms;
+	visu->bg_surface = NULL;
+	visu->bg_texture = NULL;
+	visu->room_struc = NULL;
+	visu->ants_struc = NULL;
+	visu->roomtexture_tmp = NULL;
+	visu->roomrect_tmp = NULL;
+	visu->ant_to_move = NULL;
+	visu->window = NULL;
+	visu->renderer = NULL;
+	visu->is_running = 1;
+	visu->start = 0;
+	visu->speed = 1;
+	visu->pause = 0;
+	visu->end = 0;
+	if (!(visu->window = SDL_CreateWindow("Lem-in", SDL_WINDOWPOS_UNDEFINED,
+		SDL_DestroyWindow(visu->window);
+	if (!(visu->renderer = SDL_CreateRenderer(visu->window, -1,
+	if (!(visu->bg_surface = IMG_Load("vis/media/Winter.jpg")))
+	if (!(visu->bg_texture = SDL_CreateTextureFromSurface(visu->renderer,
+					visu->bg_surface)))
+	SDL_FreeSurface(visu->bg_surface);
+	visu->room_struc = get_room_textures(graph->rooms, visu->renderer,
+	visu->ants_struc = get_ants_textures(graph, visu->renderer,
+			visu->room_struc);
+	visu->x = visu->ants_struc->ant_rect->rect.x;
+	visu->y = visu->ants_struc->ant_rect->rect.y;
+	while (visu->is_running)
+		while (visu->start && visu->is_running)
+		while (!visu->start)
+			if (SDL_PollEvent(&visu->event))
+				if (visu->event.type == SDL_QUIT)
+				if (visu->event.type == SDL_KEYDOWN)
+					if (visu->event.key.keysym.sym == SDLK_ESCAPE)
+					if (visu->event.key.keysym.sym == SDLK_s)
+						visu->start = 1;
+	SDL_DestroyWindow(visu->window);

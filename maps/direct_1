@@ -1,0 +1,9 @@
+5
+##start
+s 1 1
+k 3 3
+##end
+e 2 2
+s-e
+s-k
+k-e

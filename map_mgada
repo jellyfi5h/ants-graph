@@ -1,0 +1,21 @@
+4
+##start
+start 1 2
+UL 3 0
+#commentaire
+ML 3 2
+DL 3 4
+UR 5 1
+DR 5 3
+##end
+END 7 2
+start-ML
+start-DL
+start-UL
+UL-UR
+DL-DR
+ML-UR
+ML-DR
+DR-END
+UR-END
+#autre commentaire
