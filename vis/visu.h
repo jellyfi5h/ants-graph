@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   visu.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukhri <aboukhri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ataleb <ataleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/28 20:20:50 by ataleb            #+#    #+#             */
-/*   Updated: 2019/11/13 21:47:01 by aboukhri         ###   ########.fr       */
+/*   Updated: 2019/11/16 18:28:03 by ataleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,15 @@ typedef	struct s_curr_action	t_curr_action;
 typedef	struct s_visu_edges		t_visu_edges;
 typedef	struct s_move_ants		t_move_ants;
 typedef	struct s_get_action		t_get_action;
+typedef	struct s_points			t_points;
+
+struct				s_points
+{
+	int				x;
+	int				y;
+	int				h;
+	int				w;
+};
 
 struct				s_get_action
 {
@@ -156,11 +165,12 @@ struct				s_visu_room
 	int				smol_y;
 	int				r_width;
 	int				r_height;
+	t_points		points;
 };
 
 void	vis_main(t_graph *graph);
 void	new_texture_node(t_texture **head, SDL_Texture *new_txtr, int i);
-void	new_rect_node(t_rect **head, int x, int y, int h, int w, int i,
+void	new_rect_node(t_rect **head, t_visu_room *struc, int i,
 		char *name);
 void	print_rect_list(t_rect *head);
 void	calculate_move(t_coords src_cords, t_coords dst_cords, t_visu *h);

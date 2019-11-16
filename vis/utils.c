@@ -6,7 +6,7 @@
 /*   By: ataleb <ataleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 23:01:32 by ataleb            #+#    #+#             */
-/*   Updated: 2019/11/13 12:01:01 by ataleb           ###   ########.fr       */
+/*   Updated: 2019/11/16 20:44:47 by ataleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void			quit_and_free(t_visu *visu)
 {
 	SDL_DestroyWindow(visu->window);
 	SDL_Quit();
-	//free all
+	free_garbage(visu->garbage);
 	exit(0);
 }
 
@@ -81,6 +81,14 @@ void			execute_action(t_curr_action *head, t_visu *visu)
 		show_on_screen(visu);
 }
 
+static	void	add_new_action_node(void **ants, t_get_action *s)
+{
+	((t_nodes*)((t_links*)ants[s->j])->addr)->full = 0;
+	s->next->full = 1;
+	ants[s->j] = ((t_links*)ants[s->j])->next;
+	new_action_node(&s->head, s->curr->name, s->next->name, s->j);
+}
+
 void			get_current_action_and_move(void **ants, int count,
 		t_nodes *sink, t_visu *visu)
 {
@@ -98,12 +106,7 @@ void			get_current_action_and_move(void **ants, int count,
 				s.next = ((t_links*)ants[s.j])->next->addr;
 				s.curr = (t_nodes*)((t_links*)ants[s.j])->addr;
 				if (!s.next->full || ft_strcmp(s.next->name, sink->name) == 0)
-				{
-					((t_nodes*)((t_links*)ants[s.j])->addr)->full = 0;
-					s.next->full = 1;
-					ants[s.j] = ((t_links*)ants[s.j])->next;
-					new_action_node(&s.head, s.curr->name, s.next->name, s.j);
-				}
+					add_new_action_node(ants, &s);
 			}
 		}
 		execute_action(s.head, visu);

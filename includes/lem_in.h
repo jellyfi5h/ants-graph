@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lem_in.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukhri <aboukhri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ataleb <ataleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 10:29:44 by aboukhri          #+#    #+#             */
-/*   Updated: 2019/11/10 16:40:00 by aboukhri         ###   ########.fr       */
+/*   Updated: 2019/11/16 18:46:08 by ataleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,5 +181,6 @@ void		display_vertices(t_links **vertices, int len);
 void		display_edges(t_nodes *rooms);
 void		display_groups(t_group *groups, int ants);
 void		display_group(t_group *group, int ants);
+int			is_neighbors(t_nodes *r1, t_nodes *r2);
 
 #endif

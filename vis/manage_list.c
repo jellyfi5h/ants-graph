@@ -6,7 +6,7 @@
 /*   By: ataleb <ataleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/04 20:32:51 by ataleb            #+#    #+#             */
-/*   Updated: 2019/11/08 07:51:43 by ataleb           ###   ########.fr       */
+/*   Updated: 2019/11/16 18:24:07 by ataleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	new_texture_node(t_texture **head, SDL_Texture *new_txtr, int i)
 	}
 }
 
-void	new_rect_node(t_rect **head, int w, int h, int x, int y, int i,
+void	new_rect_node(t_rect **head, t_visu_room *struc, int i,
 		char *name)
 {
 	t_rect	*new;
@@ -89,12 +89,12 @@ void	new_rect_node(t_rect **head, int w, int h, int x, int y, int i,
 	if (!(new = (t_rect *)malloc(sizeof(t_rect))))
 		exit(1);
 	new->f = 1;
-	new->rect.h = h;
-	new->rect.w = w;
-	new->rect.x = x;
-	new->rect.y = y;
-	new->dl.updated_x = x;
-	new->dl.updated_y = y;
+	new->rect.h = struc->points.h;
+	new->rect.w = struc->points.w;
+	new->rect.x = struc->points.x;
+	new->rect.y = struc->points.y;
+	new->dl.updated_x = struc->points.x;
+	new->dl.updated_y = struc->points.y;
 	new->index = i;
 	new->name = name;
 	new->next = NULL;

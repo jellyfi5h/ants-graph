@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vis_main.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukhri <aboukhri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ataleb <ataleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/23 16:09:48 by ataleb            #+#    #+#             */
-/*   Updated: 2019/11/13 21:47:29 by aboukhri         ###   ########.fr       */
+/*   Updated: 2019/11/16 20:56:31 by ataleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,14 @@ static	void	get_scale_by_coordinates(t_visu_room *struc, t_nodes *rooms,
 	}
 }
 
+static	void	get_text_height_width(t_visu_room *struc)
+{
+	struc->textpos_s.h = struc->r_height / 3;
+	struc->textpos_s.w = struc->r_width;
+	struc->textpos_e.h = struc->r_height / 3;
+	struc->textpos_e.w = struc->r_width;
+}
+
 static	void	fill_height_width_and_coordinates(t_visu_room *struc,
 		t_nodes *tmp)
 {
@@ -72,16 +80,16 @@ static	void	fill_height_width_and_coordinates(t_visu_room *struc,
 	struc->i = -1;
 	while (++struc->i < struc->num)
 	{
-		new_rect_node(&struc->room_rect, struc->r_width, struc->r_height,
-				(tmp->coord.x * struc->r_width) - (struc->r_width *
-					struc->smol_x), (tmp->coord.y * struc->r_height) -
-				(struc->r_height * struc->smol_y), struc->i, tmp->name);
+		struc->points.w = struc->r_width;
+		struc->points.h = struc->r_height;
+		struc->points.x = (tmp->coord.x * struc->r_width) - (struc->r_width *
+				struc->smol_x);
+		struc->points.y = (tmp->coord.y * struc->r_height) -
+			(struc->r_height * struc->smol_y);
+		new_rect_node(&struc->room_rect, struc, struc->i, tmp->name);
 		tmp = tmp->next;
 	}
-	struc->textpos_s.h = struc->r_height / 3;
-	struc->textpos_s.w = struc->r_width;
-	struc->textpos_e.h = struc->r_height / 3;
-	struc->textpos_e.w = struc->r_width;
+	get_text_height_width(struc);
 	struc->textpos_s.x = struc->start_xy.x * struc->r_width -
 		(struc->r_width * struc->smol_x);
 	struc->textpos_s.y = (struc->start_xy.y * struc->r_height) + struc->r_height
@@ -92,33 +100,33 @@ static	void	fill_height_width_and_coordinates(t_visu_room *struc,
 		struc->r_width * struc->smol_y;
 }
 
-static	void	sdl_log_and_quit(char *message)
+static	void	sdl_log_and_quit(char *message, t_visu *visu)
 {
 	SDL_Log("%s\n%s\n", message, SDL_GetError());
 	SDL_Quit();
-	//free all and destroy window
+	free_garbage(visu->garbage);
 	exit(1);
 }
 
-static	void	load_images(t_visu_room *struc, SDL_Renderer *renderer)
+static	void	load_images(t_visu_room *struc, SDL_Renderer *renderer, t_visu *visu)
 {
 	if (!(struc->text_s = IMG_Load("vis/media/Start.png")))
-		sdl_log_and_quit("Start text surface error");
+		sdl_log_and_quit("Start text surface error", visu);
 	if (!(struc->text_e = IMG_Load("vis/media/End.png")))
-		sdl_log_and_quit("End text surface error");
+		sdl_log_and_quit("End text surface error", visu);
 	if (!(struc->text_ure_s = SDL_CreateTextureFromSurface(renderer,
 					struc->text_s)))
-		sdl_log_and_quit("Error in start image texture");
+		sdl_log_and_quit("Error in start image texture", visu);
 	SDL_FreeSurface(struc->text_s);
 	if (!(struc->text_ure_e = SDL_CreateTextureFromSurface(renderer,
 					struc->text_e)))
-		sdl_log_and_quit("Error in end image texture");
+		sdl_log_and_quit("Error in end image texture", visu);
 	SDL_FreeSurface(struc->text_e);
 	if (!(struc->room_surface = IMG_Load("vis/media/room2 copy.png")))
-		sdl_log_and_quit("loading image (room)");
+		sdl_log_and_quit("loading image (room)", visu);
 }
 
-t_visu_room		*get_room_textures(t_nodes *rooms, SDL_Renderer *renderer,
+t_visu_room		*get_room_textures(t_nodes *rooms, t_visu *visu,
 		char *start_name, char *end_name)
 {
 	t_visu_room		*struc;
@@ -129,17 +137,17 @@ t_visu_room		*get_room_textures(t_nodes *rooms, SDL_Renderer *renderer,
 		printf("Error Malloc room structure\n");
 		exit(0);
 	}
-	garbage_mem(struc, garbage);
+	//garbage_mem(struc, garbage);
 	init_room_struc(struc);
 	tmp = rooms;
 	get_scale_by_coordinates(struc, rooms, start_name, end_name);
 	fill_height_width_and_coordinates(struc, tmp);
-	load_images(struc, renderer);
+	load_images(struc, visu->renderer, visu);
 	struc->i = 0;
 	while ((struc->i) < struc->num)
 	{
 		new_texture_node(&struc->room_texture,
-				SDL_CreateTextureFromSurface(renderer, struc->room_surface),
+				SDL_CreateTextureFromSurface(visu->renderer, struc->room_surface),
 				struc->i);
 		(struc->i)++;
 	}
@@ -158,11 +166,13 @@ t_visu_ants		*get_ants_textures(t_graph *graph, SDL_Renderer *renderer,
 	struc->ant_texture = NULL;
 	struc->ant_rect = NULL;
 	struc->i = 0;
+	room->points.w = room->r_width / 2;
+	room->points.h = room->r_height / 2;
+	room->points.x = room->textpos_s.x + room->r_width / 4;
+	room->points.y = room->textpos_s.y - room->r_height + room->r_height / 4;
 	while (struc->i < graph->ants)
 	{
-		new_rect_node(&struc->ant_rect, room->r_height / 2, room->r_width / 2,
-				room->textpos_s.x + room->r_width / 4, room->textpos_s.y -
-				room->r_height + room->r_height / 4, struc->i, NULL);
+		new_rect_node(&struc->ant_rect, room, struc->i, NULL);
 		struc->i++;
 	}
 	struc->ant_surface = IMG_Load("vis/media/antt copy.png");
@@ -266,8 +276,9 @@ static	void	init_visu_struc(t_visu *visu, t_graph *graph)
 	visu->speed = 1;
 	visu->pause = 0;
 	visu->end = 0;
+	visu->garbage = graph->garbage;
 	if (SDL_Init(SDL_INIT_VIDEO) != 0)
-		sdl_log_and_quit("Init error");
+		sdl_log_and_quit("Init error", visu);
 	if (!(visu->window = SDL_CreateWindow("Lem-in", SDL_WINDOWPOS_UNDEFINED,
 					SDL_WINDOWPOS_UNDEFINED, WINDOW_WIDTH, WINDOW_HEIGHT, 0)))
 	{
@@ -320,14 +331,14 @@ void			vis_main(t_graph *graph)
 	init_visu_struc(visu, graph);
 	if (!(visu->renderer = SDL_CreateRenderer(visu->window, -1,
 					SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC)))
-		sdl_log_and_quit("Error creating renderer");
+		sdl_log_and_quit("Error creating renderer", visu);
 	if (!(visu->bg_surface = IMG_Load("vis/media/Winter.jpg")))
-		sdl_log_and_quit("Error loading background surface");
+		sdl_log_and_quit("Error loading background surface", visu);
 	if (!(visu->bg_texture = SDL_CreateTextureFromSurface(visu->renderer,
 					visu->bg_surface)))
-		sdl_log_and_quit("Error creating background texture");
+		sdl_log_and_quit("Error creating background texture", visu);
 	SDL_FreeSurface(visu->bg_surface);
-	visu->room_struc = get_room_textures(graph->rooms, visu->renderer,
+	visu->room_struc = get_room_textures(graph->rooms, visu,
 			((t_nodes *)graph->source)->name, ((t_nodes *)graph->sink)->name);
 	visu->ants_struc = get_ants_textures(graph, visu->renderer,
 			visu->room_struc);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   score.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aboukhri <aboukhri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ataleb <ataleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 05:00:00 by aboukhri          #+#    #+#             */
-/*   Updated: 2019/11/13 21:49:28 by aboukhri         ###   ########.fr       */
+/*   Updated: 2019/11/15 17:08:26 by ataleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@
 
 int		ft_ceil(float number)
 {
-	(number > (int)number)
-	return (number + 1);
+	if (number > (int)number)
+		return (number + 1);
+	return (number);
 }
 
 int		calcul_score(int ants, int depth, int nbr_paths)
