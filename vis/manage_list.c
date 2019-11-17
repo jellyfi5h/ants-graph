@@ -6,7 +6,7 @@
 /*   By: ataleb <ataleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/04 20:32:51 by ataleb            #+#    #+#             */
-/*   Updated: 2019/11/16 18:24:07 by ataleb           ###   ########.fr       */
+/*   Updated: 2019/11/17 05:51:36 by ataleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ void	free_current_action(t_curr_action *lst)
 	}
 }
 
-void	new_texture_node(t_texture **head, SDL_Texture *new_txtr, int i)
+void	new_texture_node(t_texture **head, SDL_Texture *new_txtr, int i,
+t_visu *visu)
 {
 	t_texture	*new;
 	t_texture	*tmp;
@@ -60,10 +61,9 @@ void	new_texture_node(t_texture **head, SDL_Texture *new_txtr, int i)
 		exit(1);
 	if (!(new_txtr))
 	{
-		SDL_Log("Error in creating room texture %s\n", SDL_GetError());
-		SDL_Quit();
-		exit(1);
+		sdl_log_and_quit("Error in creating room texture %s\n", visu);
 	}
+	garbage_mem(new, &visu->garbage);
 	new->texture = new_txtr;
 	new->ant_index = i;
 	new->next = NULL;
@@ -80,14 +80,14 @@ void	new_texture_node(t_texture **head, SDL_Texture *new_txtr, int i)
 	}
 }
 
-void	new_rect_node(t_rect **head, t_visu_room *struc, int i,
-		char *name)
+void	new_rect_node(t_rect **head, t_visu_room *struc, t_visu *visu)
 {
 	t_rect	*new;
 	t_rect	*tmp;
 
 	if (!(new = (t_rect *)malloc(sizeof(t_rect))))
-		exit(1);
+		quit_and_free(visu);
+	garbage_mem(new, &visu->garbage);
 	new->f = 1;
 	new->rect.h = struc->points.h;
 	new->rect.w = struc->points.w;
@@ -95,8 +95,8 @@ void	new_rect_node(t_rect **head, t_visu_room *struc, int i,
 	new->rect.y = struc->points.y;
 	new->dl.updated_x = struc->points.x;
 	new->dl.updated_y = struc->points.y;
-	new->index = i;
-	new->name = name;
+	new->index = visu->name_index.i;
+	new->name = visu->name_index.name;
 	new->next = NULL;
 	tmp = *head;
 	if (*head == NULL)

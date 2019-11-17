@@ -6,7 +6,7 @@
 /*   By: ataleb <ataleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 23:01:32 by ataleb            #+#    #+#             */
-/*   Updated: 2019/11/16 20:44:47 by ataleb           ###   ########.fr       */
+/*   Updated: 2019/11/17 05:51:38 by ataleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void			give_right_to_move(t_curr_action *head, t_visu *visu)
 	tmp = head;
 	while (tmp != NULL)
 	{
-		visu->ant_to_move = visu->ants_struc->ant_rect;
+		visu->ant_to_move = visu->ants_struc.ant_rect;
 		while (visu->ant_to_move != NULL)
 		{
 			if (visu->ant_to_move->index == tmp->ant_index)
@@ -81,8 +81,9 @@ void			execute_action(t_curr_action *head, t_visu *visu)
 		show_on_screen(visu);
 }
 
-static	void	add_new_action_node(void **ants, t_get_action *s)
+static	void	add_new_action_node(void **ants, t_get_action *s, t_visu *visu)
 {
+	(void)visu;
 	((t_nodes*)((t_links*)ants[s->j])->addr)->full = 0;
 	s->next->full = 1;
 	ants[s->j] = ((t_links*)ants[s->j])->next;
@@ -106,7 +107,7 @@ void			get_current_action_and_move(void **ants, int count,
 				s.next = ((t_links*)ants[s.j])->next->addr;
 				s.curr = (t_nodes*)((t_links*)ants[s.j])->addr;
 				if (!s.next->full || ft_strcmp(s.next->name, sink->name) == 0)
-					add_new_action_node(ants, &s);
+					add_new_action_node(ants, &s, visu);
 			}
 		}
 		execute_action(s.head, visu);
@@ -143,10 +144,10 @@ static void		render_nodes_and_text_images(t_visu *visu)
 		visu->roomtexture_tmp = visu->roomtexture_tmp->next;
 		visu->roomrect_tmp = visu->roomrect_tmp->next;
 	}
-	SDL_RenderCopy(visu->renderer, visu->room_struc->text_ure_s, NULL,
-			&visu->room_struc->textpos_s);
-	SDL_RenderCopy(visu->renderer, visu->room_struc->text_ure_e, NULL,
-			&visu->room_struc->textpos_e);
+	SDL_RenderCopy(visu->renderer, visu->room_struc.text_ure_s, NULL,
+			&visu->room_struc.textpos_s);
+	SDL_RenderCopy(visu->renderer, visu->room_struc.text_ure_e, NULL,
+			&visu->room_struc.textpos_e);
 }
 
 void			show_on_screen(t_visu *visu)
@@ -155,11 +156,11 @@ void			show_on_screen(t_visu *visu)
 	SDL_RenderClear(visu->renderer);
 	SDL_RenderCopy(visu->renderer, visu->bg_texture, NULL, NULL);
 	draw_edges(visu->rooms, visu);
-	visu->roomtexture_tmp = visu->room_struc->room_texture;
-	visu->roomrect_tmp = visu->room_struc->room_rect;
+	visu->roomtexture_tmp = visu->room_struc.room_texture;
+	visu->roomrect_tmp = visu->room_struc.room_rect;
 	render_nodes_and_text_images(visu);
-	visu->roomtexture_tmp = visu->ants_struc->ant_texture;
-	visu->roomrect_tmp = visu->ants_struc->ant_rect;
+	visu->roomtexture_tmp = visu->ants_struc.ant_texture;
+	visu->roomrect_tmp = visu->ants_struc.ant_rect;
 	while (visu->roomrect_tmp != NULL)
 	{
 		if (visu->start)

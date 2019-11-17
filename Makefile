@@ -15,7 +15,7 @@ $(LIB):
 	make -C libft
 
 $(NAME): $(LIB) $(OBJPATH)
-	gcc $(FLAGS) $(LIB) -L ~/.brew/lib/ -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_gfx -ltermcap $(OBJPATH) -o $(NAME)
+	gcc $(FLAGS) $(LIB) -L ~/.brew/lib/ -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_gfx $(OBJPATH) -o $(NAME)
 $(OBJPATH): $(OBJDIR)/%.o : %.c | $(OBJDIR)
 	gcc $(FLAGS) -c $< -o $@
 

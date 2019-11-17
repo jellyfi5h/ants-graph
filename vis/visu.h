@@ -6,7 +6,7 @@
 /*   By: ataleb <ataleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/28 20:20:50 by ataleb            #+#    #+#             */
-/*   Updated: 2019/11/16 18:28:03 by ataleb           ###   ########.fr       */
+/*   Updated: 2019/11/17 05:38:24 by ataleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,13 @@ typedef	struct s_visu_edges		t_visu_edges;
 typedef	struct s_move_ants		t_move_ants;
 typedef	struct s_get_action		t_get_action;
 typedef	struct s_points			t_points;
+typedef	struct s_name_index			t_name_index;
+
+struct				s_name_index
+{
+	int				i;
+	char			*name;
+};
 
 struct				s_points
 {
@@ -72,12 +79,47 @@ struct				s_visu_edges
 	t_rect			*neighbor_rect;
 };
 
+struct				s_visu_room
+{
+	t_nodes			*tmp;
+	SDL_Surface		*room_surface;
+	t_texture		*room_texture;
+	t_rect			*room_rect;
+	SDL_Surface		*text_s;
+	SDL_Surface		*text_e;
+	SDL_Texture		*text_ure_s;
+	SDL_Texture		*text_ure_e;
+	SDL_Rect		textpos_s;
+	SDL_Rect		textpos_e;
+	SDL_Color		color;
+	TTF_Font		*font;
+	t_coords		start_xy;
+	t_coords		end_xy;
+	int				num;
+	int				i;
+	int				big_x;
+	int				big_y;
+	int				smol_x;
+	int				smol_y;
+	int				r_width;
+	int				r_height;
+	t_points		points;
+};
+
+struct				s_visu_ants
+{
+	SDL_Surface		*ant_surface;
+	t_texture		*ant_texture;
+	t_rect			*ant_rect;
+	int				i;
+};
+
 struct				s_visu
 {
 	SDL_Surface		*bg_surface;
 	SDL_Texture		*bg_texture;
-	t_visu_room		*room_struc;
-	t_visu_ants		*ants_struc;
+	t_visu_room		room_struc;
+	t_visu_ants		ants_struc;
 	t_nodes			*rooms;
 	t_texture		*roomtexture_tmp;
 	t_rect			*roomrect_tmp;
@@ -95,6 +137,7 @@ struct				s_visu
 	int				pause;
 	int				end;
 	int				score;
+	t_name_index	name_index;
 	t_garbage		*garbage;
 };
 
@@ -133,45 +176,9 @@ struct				s_rect
 	t_rect			*next;
 };
 
-struct				s_visu_ants
-{
-	SDL_Surface		*ant_surface;
-	t_texture		*ant_texture;
-	t_rect			*ant_rect;
-	int				i;
-};
-
-struct				s_visu_room
-{
-	t_nodes			*tmp;
-	SDL_Surface		*room_surface;
-	t_texture		*room_texture;
-	t_rect			*room_rect;
-	SDL_Surface		*text_s;
-	SDL_Surface		*text_e;
-	SDL_Texture		*text_ure_s;
-	SDL_Texture		*text_ure_e;
-	SDL_Rect		textpos_s;
-	SDL_Rect		textpos_e;
-	SDL_Color		color;
-	TTF_Font		*font;
-	t_coords		start_xy;
-	t_coords		end_xy;
-	int				num;
-	int				i;
-	int				big_x;
-	int				big_y;
-	int				smol_x;
-	int				smol_y;
-	int				r_width;
-	int				r_height;
-	t_points		points;
-};
-
 void	vis_main(t_graph *graph);
-void	new_texture_node(t_texture **head, SDL_Texture *new_txtr, int i);
-void	new_rect_node(t_rect **head, t_visu_room *struc, int i,
-		char *name);
+void	new_texture_node(t_texture **head, SDL_Texture *new_txtr, int i, t_visu *visu);
+void	new_rect_node(t_rect **head, t_visu_room *struc, t_visu *visu);
 void	print_rect_list(t_rect *head);
 void	calculate_move(t_coords src_cords, t_coords dst_cords, t_visu *h);
 void	quit_and_free(t_visu *visu);
@@ -184,5 +191,6 @@ void	free_current_action(t_curr_action *lst);
 void	get_current_action_and_move(void **ants, int count,
 		t_nodes *sink, t_visu *visu);
 void	move_ant(t_visu *visu, char *src, char *dst, int ant_index);
+void	sdl_log_and_quit(char *message, t_visu *visu);
 
 #endif
