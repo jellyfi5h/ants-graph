@@ -6,7 +6,7 @@
 /*   By: ataleb <ataleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 03:05:40 by aboukhri          #+#    #+#             */
-/*   Updated: 2019/11/18 15:07:05 by ataleb           ###   ########.fr       */
+/*   Updated: 2019/11/18 17:08:57 by ataleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int				main(void)
 	//ft_putendl(graph.map);
 	//ft_putchar('\n');
 	//move_ants(&graph);
-	vis_main(&graph);
+	//vis_main(&graph);
 	free_garbage(graph.garbage);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: aboukhri <aboukhri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/28 22:34:34 by aboukhri          #+#    #+#             */
-/*   Updated: 2019/10/27 21:22:38 by aboukhri         ###   ########.fr       */
+/*   Updated: 2019/11/18 17:24:35 by ataleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ char	*map_content(void)
 		exit_program(2, "ERROR", NULL);
 	pos = 0;
 	len = INIT_LEN;
-	while (get_next_line(0, &line) > 0)
+	while (get_next_line(0, &line) >= 0)
 	{
 		if (!ft_strlen(line))
 		{
