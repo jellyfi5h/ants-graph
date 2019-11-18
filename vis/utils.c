@@ -6,11 +6,20 @@
 /*   By: ataleb <ataleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 23:01:32 by ataleb            #+#    #+#             */
-/*   Updated: 2019/11/17 05:51:38 by ataleb           ###   ########.fr       */
+/*   Updated: 2019/11/17 07:16:31 by ataleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "visu.h"
+
+void			sdl_log_and_quit(char *message, t_visu *visu)
+{
+	SDL_Log("%s\n%s\n", message, SDL_GetError());
+	SDL_DestroyWindow(visu->window);
+	SDL_Quit();
+	free_garbage(visu->garbage);
+	exit(1);
+}
 
 void			quit_and_free(t_visu *visu)
 {
@@ -18,103 +27,6 @@ void			quit_and_free(t_visu *visu)
 	SDL_Quit();
 	free_garbage(visu->garbage);
 	exit(0);
-}
-
-void			**get_ants_array(t_graph *graph, int *score)
-{
-	void	**ants;
-	t_group	*best;
-
-	best = best_group(graph->grp, graph->ants);
-	group_capacity(best, graph->ants);
-	if (!(ants = ants_division(best, graph->ants)))
-		return (NULL);
-	*score = calcul_score(graph->ants, best->sum_depth, best->flow);
-	return (ants);
-}
-
-void			give_right_to_move(t_curr_action *head, t_visu *visu)
-{
-	t_curr_action *tmp;
-
-	tmp = head;
-	while (tmp != NULL)
-	{
-		visu->ant_to_move = visu->ants_struc.ant_rect;
-		while (visu->ant_to_move != NULL)
-		{
-			if (visu->ant_to_move->index == tmp->ant_index)
-			{
-				visu->ant_to_move->f = 1;
-				break ;
-			}
-			visu->ant_to_move = visu->ant_to_move->next;
-		}
-		tmp = tmp->next;
-	}
-}
-
-void			execute_action(t_curr_action *head, t_visu *visu)
-{
-	t_curr_action	*tmp;
-	int				i;
-
-	i = 0;
-	tmp = head;
-	give_right_to_move(tmp, visu);
-	if (!visu->end)
-	{
-		while (i < FRAMES)
-		{
-			tmp = head;
-			while (tmp != NULL && visu->pause == 0)
-			{
-				move_ant(visu, tmp->src, tmp->dst, tmp->ant_index);
-				tmp = tmp->next;
-			}
-			if (visu->pause == 0)
-				i += 1;
-			show_on_screen(visu);
-		}
-	}
-	else
-		show_on_screen(visu);
-}
-
-static	void	add_new_action_node(void **ants, t_get_action *s, t_visu *visu)
-{
-	(void)visu;
-	((t_nodes*)((t_links*)ants[s->j])->addr)->full = 0;
-	s->next->full = 1;
-	ants[s->j] = ((t_links*)ants[s->j])->next;
-	new_action_node(&s->head, s->curr->name, s->next->name, s->j);
-}
-
-void			get_current_action_and_move(void **ants, int count,
-		t_nodes *sink, t_visu *visu)
-{
-	t_get_action	s;
-
-	s.head = NULL;
-	s.i = -1;
-	while (++s.i < visu->score)
-	{
-		s.j = -1;
-		while (++s.j < count)
-		{
-			if (((t_links*)ants[s.j]) && ((t_links*)ants[s.j])->next)
-			{
-				s.next = ((t_links*)ants[s.j])->next->addr;
-				s.curr = (t_nodes*)((t_links*)ants[s.j])->addr;
-				if (!s.next->full || ft_strcmp(s.next->name, sink->name) == 0)
-					add_new_action_node(ants, &s, visu);
-			}
-		}
-		execute_action(s.head, visu);
-		free_current_action(s.head);
-		s.head = NULL;
-	}
-	visu->end = 1;
 }
 
 static void		manage_events(t_visu *visu)
@@ -174,55 +86,4 @@ void			show_on_screen(t_visu *visu)
 		visu->roomrect_tmp = visu->roomrect_tmp->next;
 	}
 	SDL_RenderPresent(visu->renderer);
-}
-
-void			first_cond(t_visu *visu)
-{
-	if (visu->ant_to_move->dl.dx >= visu->ant_to_move->dl.dy)
-	{
-		if (visu->ant_to_move->f)
-		{
-			visu->ant_to_move->dl.i = 0;
-			visu->ant_to_move->f = 0;
-		}
-		if ((int)visu->ant_to_move->dl.i < visu->ant_to_move->dl.dx)
-		{
-			visu->ant_to_move->dl.updated_x += visu->xincr;
-			visu->ant_to_move->rect.x = (int)visu->ant_to_move->dl.updated_x;
-			visu->ant_to_move->dl.updated_y += visu->yincr;
-			visu->ant_to_move->rect.y = (int)visu->ant_to_move->dl.updated_y;
-			(visu->ant_to_move->dl.i) += fabs(visu->xincr);
-		}
-	}
-}
-
-void			second_cond(t_visu *visu)
-{
-	if (visu->ant_to_move->dl.dx < visu->ant_to_move->dl.dy)
-	{
-		if (visu->ant_to_move->f)
-		{
-			visu->ant_to_move->dl.i = 0;
-			visu->ant_to_move->f = 0;
-		}
-		if ((int)visu->ant_to_move->dl.i < visu->ant_to_move->dl.dy)
-		{
-			visu->ant_to_move->dl.updated_y += visu->yincr;
-			visu->ant_to_move->rect.y = (int)visu->ant_to_move->dl.updated_y;
-			visu->ant_to_move->dl.updated_x += visu->xincr;
-			visu->ant_to_move->rect.x = (int)visu->ant_to_move->dl.updated_x;
-			(visu->ant_to_move->dl.i) += fabs(visu->xincr);
-		}
-	}
-}
-
-void			calculate_move(t_coords src_cords, t_coords dst_cords,
-		t_visu *visu)
-{
-	visu->ant_to_move->dl.dx = abs(dst_cords.x - src_cords.x);
-	visu->ant_to_move->dl.dy = abs(dst_cords.y - src_cords.y);
-	visu->xincr = (dst_cords.x - src_cords.x) / FRAMES;
-	visu->yincr = (dst_cords.y - src_cords.y) / FRAMES;
-	first_cond(visu);
-	second_cond(visu);
 }

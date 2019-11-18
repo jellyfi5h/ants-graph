@@ -6,26 +6,22 @@
 /*   By: ataleb <ataleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/04 20:32:51 by ataleb            #+#    #+#             */
-/*   Updated: 2019/11/17 05:51:36 by ataleb           ###   ########.fr       */
+/*   Updated: 2019/11/18 14:08:35 by ataleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "visu.h"
 
-void	new_action_node(t_curr_action **head, char *src, char *dst,
-		int ant_index)
+void	new_action_node(t_curr_action **head, t_get_action *s, t_visu *visu)
 {
 	t_curr_action *new;
 	t_curr_action *tmp;
 
 	if (!(new = (t_curr_action *)malloc(sizeof(t_curr_action))))
-	{
-		printf("New Node Malloc error \n");
-		exit(1);
-	}
-	new->src = src;
-	new->dst = dst;
-	new->ant_index = ant_index;
+		quit_and_free(visu);
+	new->src = s->curr->name;
+	new->dst = s->next->name;
+	new->ant_index = s->j;
 	new->next = NULL;
 	tmp = *head;
 	if (*head == NULL)

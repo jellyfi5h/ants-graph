@@ -6,7 +6,7 @@
 /*   By: ataleb <ataleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/28 20:20:50 by ataleb            #+#    #+#             */
-/*   Updated: 2019/11/17 05:38:24 by ataleb           ###   ########.fr       */
+/*   Updated: 2019/11/18 15:32:30 by ataleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,19 +55,19 @@ struct				s_points
 
 struct				s_get_action
 {
-	t_nodes         *next;
-	t_nodes         *curr;
-	t_curr_action   *head;
-	int             i;
-	int             j;
+	t_nodes			*next;
+	t_nodes			*curr;
+	t_curr_action	*head;
+	int				i;
+	int				j;
 };
 
 struct				s_move_ants
 {
-	SDL_Rect    src_rec;
-	SDL_Rect    dst_rec;
-	t_coords    src_cords;
-	t_coords    dst_cords;
+	SDL_Rect	src_rec;
+	SDL_Rect	dst_rec;
+	t_coords	src_cords;
+	t_coords	dst_cords;
 };
 
 struct				s_visu_edges
@@ -176,21 +176,29 @@ struct				s_rect
 	t_rect			*next;
 };
 
-void	vis_main(t_graph *graph);
-void	new_texture_node(t_texture **head, SDL_Texture *new_txtr, int i, t_visu *visu);
-void	new_rect_node(t_rect **head, t_visu_room *struc, t_visu *visu);
-void	print_rect_list(t_rect *head);
-void	calculate_move(t_coords src_cords, t_coords dst_cords, t_visu *h);
-void	quit_and_free(t_visu *visu);
-void	show_on_screen(t_visu *visu);
-void	draw_edges(t_nodes *rooms, t_visu *visu);
-void	**get_ants_array(t_graph *graph, int *score);
-void	new_action_node(t_curr_action **head, char *src, char *dst,
-		int ant_index);
-void	free_current_action(t_curr_action *lst);
-void	get_current_action_and_move(void **ants, int count,
+t_visu_room			get_room_textures(t_nodes *rooms, t_visu *visu,
+		char *start_name, char *end_name);
+void				init_room_struc(t_visu_room *struc);
+void				vis_main(t_graph *graph);
+void				new_texture_node(t_texture **head, SDL_Texture *new_txtr,
+		int i, t_visu *visu);
+void				new_rect_node(t_rect **head, t_visu_room *struc,
+		t_visu *visu);
+void				print_rect_list(t_rect *head);
+void				calculate_move(t_coords src_cords, t_coords dst_cords,
+		t_visu *h);
+void				quit_and_free(t_visu *visu);
+void				show_on_screen(t_visu *visu);
+void				draw_edges(t_nodes *rooms, t_visu *visu);
+void				**get_ants_array(t_graph *graph, int *score);
+void				new_action_node(t_curr_action **head, t_get_action *s,
+		t_visu *visu);
+void				free_current_action(t_curr_action *lst);
+void				get_current_action_and_move(void **ants, int count,
 		t_nodes *sink, t_visu *visu);
-void	move_ant(t_visu *visu, char *src, char *dst, int ant_index);
-void	sdl_log_and_quit(char *message, t_visu *visu);
+void				move_ant(t_visu *visu, char *src, char *dst, int ant_index);
+void				sdl_log_and_quit(char *message, t_visu *visu);
+void				init_room_struc(t_visu_room *struc);
+void				init_visu_struc(t_visu *visu, t_graph *graph);
 
 #endif

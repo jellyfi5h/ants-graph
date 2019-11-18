@@ -6,7 +6,7 @@
 /*   By: ataleb <ataleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/20 22:32:01 by ataleb            #+#    #+#             */
-/*   Updated: 2019/10/13 08:35:53 by ataleb           ###   ########.fr       */
+/*   Updated: 2019/11/17 06:23:02 by ataleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,23 +32,29 @@ int		get_next_line(const int fd, char **line)
 	char			buff[BUFF_SIZE + 1];
 	int				ret;
 	int				lenc;
+	char			*tmp;
 
 	if (fd < 0 || !(line) || (read(fd, buff, 0)) < 0)
 		return (-1);
 	if (!(remember[fd]))
 		remember[fd] = ft_strnew(0);
 	str = ft_strnew(0);
-	str = ft_strjoin(str, remember[fd]);
+	tmp = str;
+	str = ft_strjoin(tmp, remember[fd]);
+	free(tmp);
 	while ((ret = read(fd, buff, BUFF_SIZE)))
 	{
 		buff[ret] = '\0';
-		str = ft_strjoin(str, buff);
+		tmp = str;
+		str = ft_strjoin(tmp, buff);
+		free(tmp);
 		if ((ft_strchr(buff, '\n')) != NULL)
 			break ;
 	}
 	*line = copy_c_len(*line, str, '\n', &lenc);
 	if (ret == 0 && remember[fd][0] == 0 && lenc == 0)
 		return (0);
+	free(remember[fd]);
 	remember[fd] = ft_strdup(str + lenc + 1);
 	free(str);
 	return (1);

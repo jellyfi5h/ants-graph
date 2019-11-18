@@ -6,12 +6,11 @@
 /*   By: ataleb <ataleb@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 03:05:40 by aboukhri          #+#    #+#             */
-/*   Updated: 2019/11/17 05:00:55 by ataleb           ###   ########.fr       */
+/*   Updated: 2019/11/18 15:07:05 by ataleb           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/lem_in.h"
-#include "includes/visualize.h"
 #include "vis/visu.h"
 
 /*
