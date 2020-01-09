@@ -6,7 +6,7 @@
 /*   By: aboukhri <aboukhri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/04 10:47:02 by aboukhri          #+#    #+#             */
-/*   Updated: 2019/11/10 23:22:06 by aboukhri         ###   ########.fr       */
+/*   Updated: 2019/11/18 20:31:14 by aboukhri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <string.h>
+# include "get_next_line/get_next_line.h"
 
 typedef	struct s_garbage	t_garbage;
 typedef	struct s_queue		t_queue;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lem_in.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ataleb <ataleb@student.42.fr>              +#+  +:+       +#+        */
+/*   By: aboukhri <aboukhri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 10:29:44 by aboukhri          #+#    #+#             */
-/*   Updated: 2019/11/16 18:46:08 by ataleb           ###   ########.fr       */
+/*   Updated: 2019/11/18 20:33:50 by aboukhri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define LEM_IN_H
 
 # include "../libft/libft.h"
-# include "../get_next_line/get_next_line.h"
 
 # include <stdio.h>
 # include <fcntl.h>
@@ -32,8 +31,6 @@ typedef	struct s_group	t_group;
 typedef	struct s_stack	t_stack;
 typedef	struct s_moves	t_moves;
 typedef	struct s_coords	t_coords;
-
-int fd;
 
 struct		s_coords
 {
